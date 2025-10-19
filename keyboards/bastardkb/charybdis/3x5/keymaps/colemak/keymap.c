@@ -18,6 +18,14 @@
 
 #include "keymap_colemak.h" // many special chars available
 
+enum charybdis_keymap_layers {
+    LAYER_BASE = 0,
+    LAYER_SYMBOLS,
+    LAYER_NUMERAL,
+    LAYER_FUNCTION,
+    LAYER_POINTER,
+};
+
 #define ONESHOT_TIMEOUT 500  // milliseconds, optional
 
 enum custom_keycodes {
@@ -114,13 +122,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #    include "timer.h"
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 
-enum charybdis_keymap_layers {
-    LAYER_BASE = 0,
-    LAYER_SYMBOLS,
-    LAYER_NUMERAL,
-    LAYER_FUNCTION,
-    LAYER_POINTER,
-};
 
 // Automatically enable sniping-mode on the pointer layer.
 #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
@@ -164,7 +165,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 #define LAYOUT_LAYER_SYMBOLS                                                                  \
     KC_QUOT, KC_EQUAL, KC_AMPR, KC_DLR,  KC_ASTR,       KC_PLUS,  KC_MINUS, OSM_CW_T0, KC_CIRC, KC_EXLM,\
     KC_DQT,  KC_RPRN,  KC_UNDS, KC_RCBR, KC_RBRC,       KC_LBRC,  KC_LCBR,  OSM_LSFT_T0, KC_LPRN, OSM_LCTL_T0,\
-    KC_TILD, KC_HASH,  KC_AT,   KC_RABR, KC_PIPE,       KC_GRAVE, KC_LABR,  KC_PERC, KC_BSLS, KC_SLSH,\
+    KC_TILD, KC_HASH,  KC_AT,   KC_RABK, KC_PIPE,       KC_GRAVE, KC_LABK,  KC_PERC, KC_BSLS, KC_SLSH,\
                        TO_NUM,  KC_TAB,  KC_BSPC,       KC_NO,    TO_BASE
 
 
@@ -201,7 +202,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_POINTER                                                               \
     KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO,        KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO, \
-    SNIPING,  KC_BTN_2, DRGSCRL, KC_BTN1, KC_NO,        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT, KC_NO, \
+    SNIPING,  KC_BTN2, DRGSCRL, KC_BTN1, KC_NO,        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT, KC_NO, \
     KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO,        KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO, \
                         KC_NO,   KC_NO,   KC_NO,        KC_NO,    TO_BASE
 
