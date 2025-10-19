@@ -184,7 +184,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  * are in the standard numpad locations with symbols in the remaining positions.
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
-    KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_7,     KC_8,    KC_9,    KC_RBRC, \
+    KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_7,     KC_8,    KC_9,    KC_NO, \
     OSM_LALT_T0,  KC_NO,   KC_NO,   OSM_LGUI_T0, KC_NO,         KC_NO,    KC_4,     KC_5,    KC_6,    OSM_DE_T0, \
     KC_NO,    KC_DEL,  KC_NO,   KC_NO,   KC_NO,         KC_0,     KC_1,     KC_2,    KC_3,   OSM_SE_T0, \
                        KC_NO,   KC_NO,   FUN_TRIG_0,    FUN_TRIG_1,    TO_BASE
