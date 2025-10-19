@@ -30,15 +30,15 @@ enum charybdis_keymap_layers {
 
 
 enum custom_keycodes {
-//    OSM_LSFT_T0 = SAFE_RANGE,  // give it a name
-//    OSM_LCTL_T0,
-//    OSM_LALT_T0,
-//    OSM_LGUI_T0,
-//    OSM_CW_T0,
+    OSM_LSFT_T0 = SAFE_RANGE,  // give it a name
+    OSM_LCTL_T0,
+    OSM_LALT_T0,
+    OSM_LGUI_T0,
+    CW_TOGG_T0,
     OSM_DE_T0,
     OSM_SE_T0,
     FUN_TRIG_0,
-    FUN_TRIG_1
+    FUN_TRIG_1,
 };
 //
 static uint16_t fun_trig_1_timer = 0;
@@ -49,49 +49,51 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case OSM_LSFT_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 add_oneshot_mods(MOD_LSFT);
                 rgblight_sethsv_noeeprom(0, 255, 255); // red to show shift active
+            } else {
+                layer_move(LAYER_BASE);
             }
             return false;
         case OSM_LCTL_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 add_oneshot_mods(MOD_LCTL);
                 rgblight_sethsv_noeeprom(0, 255, 255); // red to show mod active
             }
             return false;
         case OSM_LALT_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 add_oneshot_mods(MOD_LALT);
                 rgblight_sethsv_noeeprom(0, 255, 255); // red to show mod active
             }
             return false;
         case OSM_LGUI_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 add_oneshot_mods(MOD_LGUI);
                 rgblight_sethsv_noeeprom(0, 255, 255); // red to show mod active
             }
             return false;
-        case OSM_CW_T0:
+        case CW_TOGG_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 caps_word_toggle();
                 rgblight_sethsv_noeeprom(0, 255, 255); // red to show mod active
             }
             return false;
         case OSM_DE_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 tap_code16(A(KC_D));
                 rgblight_sethsv_noeeprom(0, 255, 255); // should be blue
             }
             return false;
         case OSM_SE_T0:
             if (record->event.pressed) {
-                layer_move(LAYER_BASE);
+                layer_on(LAYER_BASE);
                 tap_code16(A(KC_K));
                 rgblight_sethsv_noeeprom(0, 255, 255); // should be blue
             }
@@ -114,6 +116,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
+
+        case KC_ESC:
+            if (record->event.pressed) {
+                layer_on(LAYER_BASE);
+            }
+            return true;
     }
     return true;  // let all other keys process normally
 }
@@ -154,18 +162,18 @@ static uint16_t auto_pointer_layer_timer = 0;
 // clang-format off
 /** \brief Colemak layout (3 rows, 10 columns). */
 #define LAYOUT_LAYER_BASE                                                                     \
-       KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,        KC_J,    KC_L,    KC_U,    KC_Y,    KC_ESC, \
+       KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,        KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, \
        KC_A,    KC_R,    KC_S,    KC_T,    KC_D,        KC_H,    KC_N,    KC_E,    KC_I,    KC_O,   \
-       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,        KC_K,    KC_M, KC_COMM,  KC_DOT,    KC_QUES,\
+       KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,        KC_K,    KC_M, KC_COMM,  KC_DOT,    KC_SLSH,\
                          TO_SYM,  KC_SPC,  TO_PTR,      KC_ENT,  KC_NO
 
 /**
  * \brief Symbols layer.
  */
 #define LAYOUT_LAYER_SYMBOLS                                                                  \
-    KC_QUOT, KC_EQUAL, KC_AMPR, KC_DLR,  KC_ASTR,       KC_PLUS,  KC_MINUS, CW_TOGG, KC_CIRC, KC_EXLM,\
-    KC_DQT,  KC_RPRN,  KC_UNDS, KC_RCBR, KC_RBRC,       KC_LBRC,  KC_LCBR,  OSM(MOD_LSFT), KC_LPRN, OSM(MOD_LCTL),\
-    KC_TILD, KC_HASH,  KC_AT,   KC_RABK, KC_PIPE,       KC_GRAVE, KC_LABK,  KC_PERC, KC_BSLS, KC_SLSH,\
+    KC_QUOT, KC_EQUAL, KC_AMPR, KC_DLR,  KC_ASTR,       KC_PLUS,  KC_MINUS, CW_TOGG_T0, KC_CIRC, KC_ESC,\
+    KC_DQT,  KC_RPRN,  KC_UNDS, KC_RCBR, KC_RBRC,       KC_LBRC,  KC_LCBR,  OSM_LSFT_T0, KC_LPRN, OSM_LCTL_T0,\
+    KC_TILD, KC_HASH,  KC_AT,   KC_RABK, KC_PIPE,       KC_GRAVE, KC_LABK,  KC_PERC, KC_BSLS, KC_EXLM,\
                        TO_NUM,  KC_TAB,  KC_BSPC,       KC_NO,    TO_BASE
 
 
@@ -177,7 +185,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
     KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_7,     KC_8,    KC_9,    KC_RBRC, \
-    OSM(MOD_LALT),  KC_NO,   KC_NO,   OSM(MOD_LGUI), KC_NO,         KC_NO,    KC_4,     KC_5,    KC_6,    OSM_DE_T0, \
+    OSM_LALT_T0,  KC_NO,   KC_NO,   OSM_LGUI_T0, KC_NO,         KC_NO,    KC_4,     KC_5,    KC_6,    OSM_DE_T0, \
     KC_NO,    KC_DEL,  KC_NO,   KC_NO,   KC_NO,         KC_0,     KC_1,     KC_2,    KC_3,   OSM_SE_T0, \
                        KC_NO,   KC_NO,   FUN_TRIG_0,    FUN_TRIG_1,    TO_BASE
 
@@ -191,17 +199,16 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_FUNCTION                                                                 \
     KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,         KC_F6,    KC_F7,    KC_F8,   KC_F9,   KC_F10,\
-    KC_F11,   KC_F12,  KC_NO,   KC_NO,   KC_NO,         KC_PSCR,  KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP, KC_NO, \
+     KC_F11,   KC_F12,  KC_NO,   KC_NO,   KC_NO,         KC_PSCR,  KC_KB_MUTE, KC_KB_VOLUME_DOWN, KC_KB_VOLUME_UP, KC_NO, \
     QK_BOOT,  KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_NO,    KC_NO,   KC_NO,   QK_BOOT,\
                        KC_NO,   KC_NO,   KC_NO,         KC_NO,    TO_BASE
-
 /**
  * \brief Navigation layer.
  *
  * Mouse and arrows
  */
 #define LAYOUT_LAYER_POINTER                                                               \
-    QK_BOOT,    KC_NO,    KC_NO,   KC_NO,   KC_NO,        KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO, \
+    QK_BOOT,    KC_NO,    KC_NO,   DPI_MOD,  S_D_MOD,        S_D_RMOD, DPI_RMOD,    KC_NO,   KC_NO,   QK_BOOT, \
     SNIPING,  KC_BTN2, DRGSCRL, KC_BTN1, KC_NO,        KC_LEFT,  KC_DOWN,  KC_UP,   KC_RGHT, KC_NO, \
     KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO,        KC_NO,    KC_NO,    KC_NO,   KC_NO,   KC_NO, \
                         KC_NO,   KC_NO,   KC_NO,        KC_NO,    TO_BASE
