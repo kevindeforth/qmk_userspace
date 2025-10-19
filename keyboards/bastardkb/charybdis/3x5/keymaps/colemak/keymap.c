@@ -18,7 +18,7 @@
 
 //#include "keymap_colemak.h" // many special chars available
                             //
-#include "quantum_keycodes.h"
+//#include "quantum_keycodes.h"
 
 enum charybdis_keymap_layers {
     LAYER_BASE = 0,
@@ -30,21 +30,21 @@ enum charybdis_keymap_layers {
 
 
 enum custom_keycodes {
-    OSM_LSFT_T0 = SAFE_RANGE,  // give it a name
-    OSM_LCTL_T0,
-    OSM_LALT_T0,
-    OSM_LGUI_T0,
-    OSM_CW_T0,
+//    OSM_LSFT_T0 = SAFE_RANGE,  // give it a name
+//    OSM_LCTL_T0,
+//    OSM_LALT_T0,
+//    OSM_LGUI_T0,
+//    OSM_CW_T0,
     OSM_DE_T0,
     OSM_SE_T0,
     FUN_TRIG_0,
     FUN_TRIG_1
 };
-
+//
 static uint16_t fun_trig_1_timer = 0;
 static uint16_t fun_trig_2_timer = 0;
-#define CHORD_TIME 200  // ms window to count as "simultaneous"
-
+#define CHORD_TIME 500  // ms window to count as "simultaneous"
+//
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case OSM_LSFT_T0:
@@ -100,7 +100,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case FUN_TRIG_0:
             if (record->event.pressed) {
                 fun_trig_1_timer = timer_read();
-
                 if (timer_elapsed(fun_trig_2_timer) < CHORD_TIME) {
                     layer_on(LAYER_FUNCTION);
                 }
@@ -165,7 +164,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_SYMBOLS                                                                  \
     KC_QUOT, KC_EQUAL, KC_AMPR, KC_DLR,  KC_ASTR,       KC_PLUS,  KC_MINUS, CW_TOGG, KC_CIRC, KC_EXLM,\
-    KC_DQT,  KC_RPRN,  KC_UNDS, KC_RCBR, KC_RBRC,       KC_LBRC,  KC_LCBR,  OS_LSFT, KC_LPRN, OS_LCTL,\
+    KC_DQT,  KC_RPRN,  KC_UNDS, KC_RCBR, KC_RBRC,       KC_LBRC,  KC_LCBR,  OSM(MOD_LSFT), KC_LPRN, OSM(MOD_LCTL),\
     KC_TILD, KC_HASH,  KC_AT,   KC_RABK, KC_PIPE,       KC_GRAVE, KC_LABK,  KC_PERC, KC_BSLS, KC_SLSH,\
                        TO_NUM,  KC_TAB,  KC_BSPC,       KC_NO,    TO_BASE
 
@@ -178,7 +177,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 #define LAYOUT_LAYER_NUMERAL                                                                  \
     KC_NO,    KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_7,     KC_8,    KC_9,    KC_RBRC, \
-    OS_LALT,  KC_NO,   KC_NO,   OS_LGUI, KC_NO,         KC_NO,    KC_4,     KC_5,    KC_6,    OSM_DE_T0, \
+    OSM(MOD_LALT),  KC_NO,   KC_NO,   OSM(MOD_LGUI), KC_NO,         KC_NO,    KC_4,     KC_5,    KC_6,    OSM_DE_T0, \
     KC_NO,    KC_DEL,  KC_NO,   KC_NO,   KC_NO,         KC_0,     KC_1,     KC_2,    KC_3,   OSM_SE_T0, \
                        KC_NO,   KC_NO,   FUN_TRIG_0,    FUN_TRIG_1,    TO_BASE
 
@@ -216,6 +215,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_FUNCTION] = LAYOUT_wrapper(LAYOUT_LAYER_FUNCTION),
   [LAYER_POINTER]  = LAYOUT_wrapper(LAYOUT_LAYER_POINTER),
 };
+
 // clang-format on
 
 #ifdef POINTING_DEVICE_ENABLE
@@ -258,3 +258,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 // rgb_matrix.c.
 void rgb_matrix_update_pwm_buffers(void);
 #endif
+
+
+
+
